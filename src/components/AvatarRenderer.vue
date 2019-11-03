@@ -15,5 +15,7 @@ img {
   height: 120px;
   width: auto;
   border-radius: 50%;
+  position: relative;
+  left: 10px;
 }
 </style>

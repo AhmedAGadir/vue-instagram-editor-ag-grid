@@ -13,7 +13,7 @@ export default {
 
 <style scoped>
 div {
-  font-size: 18px;
+  font-size: 17px;
   color: darkgrey;
   cursor: pointer;
 }

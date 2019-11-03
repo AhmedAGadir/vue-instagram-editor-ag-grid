@@ -1,9 +1,5 @@
 <template>
   <div class="app">
-    <md-field md-inline>
-      <label>Search</label>
-      <md-input v-model="input"></md-input>
-    </md-field>
     <ag-grid-vue
       style="height: 900px;"
       class="ag-theme-balham"
@@ -31,8 +27,7 @@ export default {
       columnDefs: null,
       rowData: null,
       gridApi: null,
-      columnApi: null,
-      input: null
+      columnApi: null
     };
   },
   components: {
@@ -40,11 +35,6 @@ export default {
     AvatarRenderer,
     AccountDetailsRenderer,
     RemoveCellRenderer
-  },
-  watch: {
-    input: function(value) {
-      this.gridApi.setQuickFilter(value);
-    }
   },
   methods: {
     onGridReady(params) {
@@ -80,7 +70,7 @@ export default {
 $header-height: 0px;
 $row-border-width: 0px;
 // $cell-horizontal-padding: 0px;
-$hover-color: rgb(240, 240, 243);
+$hover-color: rgb(240, 240, 240);
 
 @import "../node_modules/ag-grid-community/src/styles/ag-grid.scss";
 @import "../node_modules/ag-grid-community/src/styles/ag-theme-balham/sass/ag-theme-balham.scss";
@@ -92,5 +82,6 @@ $hover-color: rgb(240, 240, 243);
 
 .app {
   width: 100%;
+  background: white;
 }
 </style>

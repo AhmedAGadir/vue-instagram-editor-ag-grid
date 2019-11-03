@@ -31,7 +31,7 @@ h2 img {
   height: 20px;
 }
 p {
-  font-size: 18px;
+  font-size: 17px;
   color: darkgrey;
 }
 </style>
