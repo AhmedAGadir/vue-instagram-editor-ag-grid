@@ -20,8 +20,6 @@ export default {
 </script>
 
 <style scoped>
-div {
-}
 h2 {
   font-size: 24px;
   margin: 5px 0;

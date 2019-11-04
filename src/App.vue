@@ -18,7 +18,7 @@ import { AgGridVue } from "ag-grid-vue";
 import rowData from "./rowData.js";
 import AvatarRenderer from "./components/AvatarRenderer.vue";
 import AccountDetailsRenderer from "./components/AccountDetailsRenderer.vue";
-import RemoveCellRenderer from "./components/RemoveCellRenderer.vue";
+import ActionsRenderer from "./components/ActionsRenderer.vue";
 
 export default {
   name: "App",
@@ -34,7 +34,7 @@ export default {
     AgGridVue,
     AvatarRenderer,
     AccountDetailsRenderer,
-    RemoveCellRenderer
+    ActionsRenderer
   },
   methods: {
     onGridReady(params) {
@@ -52,12 +52,12 @@ export default {
       {
         field: "accountDetails",
         cellRendererFramework: "AccountDetailsRenderer",
-        width: 390
+        width: 350
       },
       {
         headerName: "Actions",
-        cellRendererFramework: "RemoveCellRenderer",
-        width: 60
+        cellRendererFramework: "ActionsRenderer",
+        width: 100
       }
     ];
 
