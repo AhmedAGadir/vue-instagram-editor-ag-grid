@@ -44,10 +44,13 @@ export default {
   color: rgb(196, 194, 194);
   cursor: pointer;
   display: flex;
-  font-size: 24px;
+  font-size: 22px;
 }
 .actions-container > div {
   width: 35px;
   text-align: center;
+}
+.actions-container > div:hover {
+  color: grey;
 }
 </style>
