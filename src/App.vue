@@ -6,9 +6,9 @@
       :columnDefs="columnDefs"
       :rowData="rowData"
       rowHeight="150"
-      headerHeight="0"
       suppressCellSelection
       @grid-ready="onGridReady"
+      headerHeight="0"
     ></ag-grid-vue>
   </div>
 </template>
@@ -47,17 +47,17 @@ export default {
       {
         field: "avatarUrl",
         cellRendererFramework: "AvatarRenderer",
-        width: 150
+        width: 170
       },
       {
         field: "accountDetails",
         cellRendererFramework: "AccountDetailsRenderer",
-        width: 350
+        width: 300
       },
       {
         headerName: "Actions",
         cellRendererFramework: "ActionsRenderer",
-        width: 100
+        width: 130
       }
     ];
 
@@ -69,7 +69,6 @@ export default {
 <style lang="scss">
 $header-height: 0px;
 $row-border-width: 0px;
-// $cell-horizontal-padding: 0px;
 $hover-color: rgb(240, 240, 240);
 
 @import "../node_modules/ag-grid-community/src/styles/ag-grid.scss";

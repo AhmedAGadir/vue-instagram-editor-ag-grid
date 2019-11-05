@@ -1,10 +1,15 @@
 <template>
-  <div class="actions-container">
-    <div>
-      <span v-show="hover">✎</span>
+  <div class="container">
+    <div class="contracted" v-if="!expanded" @click="expanded = true">
+      <span class="action">⋮</span>
     </div>
-    <div>
-      <span>✕</span>
+    <div class="expanded" v-if="expanded">
+      <span class="action">
+        <i class="fas fa-pencil-alt"></i>
+      </span>
+      <span class="action">
+        <i class="far fa-trash-alt"></i>
+      </span>
     </div>
   </div>
 </template>
@@ -13,44 +18,60 @@
 export default {
   data: function() {
     return {
-      hover: false
+      expanded: false
     };
   },
   methods: {
     onMouseOver(params) {
-      if (params.node === this.params.node) {
-        this.hover = true;
-      }
-    },
-    onMouseOut(params) {
-      if (params.node === this.params.node) {
-        this.hover = false;
+      if (params.node !== this.params.node) {
+        this.expanded = false;
       }
     }
   },
   created() {
     this.params.api.addEventListener("cellMouseOver", this.onMouseOver);
-    this.params.api.addEventListener("cellMouseOut", this.onMouseOut);
   },
   destroyed() {
     this.params.api.removeEventListener("cellMouseOver", this.onMouseOver);
-    this.params.api.removeEventListener("cellMouseOut", this.onMouseOut);
   }
 };
 </script>
 
 <style scoped>
-.actions-container {
-  color: rgb(196, 194, 194);
-  cursor: pointer;
+.container {
+  transition: all 0.3s ease-out;
   display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.contracted .action,
+.expanded .action {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: darkgrey;
+}
+
+.contracted .action:hover,
+.expanded .action:hover {
+  background: rgb(248, 248, 248);
+}
+
+.contracted .action {
+  font-size: 30px;
+}
+
+.expanded .action {
+  margin: 0 5px;
+  background: rgb(233, 233, 233);
+}
+
+.expanded {
   font-size: 22px;
-}
-.actions-container > div {
-  width: 35px;
-  text-align: center;
-}
-.actions-container > div:hover {
-  color: grey;
+  display: flex;
 }
 </style>

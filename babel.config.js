@@ -1,4 +1,4 @@
-module.exports = {
+gimodule.exports = {
   presets: [
     '@vue/cli-plugin-babel/preset'
   ]

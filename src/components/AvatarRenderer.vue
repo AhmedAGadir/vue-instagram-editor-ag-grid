@@ -16,6 +16,6 @@ img {
   width: auto;
   border-radius: 50%;
   position: relative;
-  left: 10px;
+  left: 20px;
 }
 </style>
