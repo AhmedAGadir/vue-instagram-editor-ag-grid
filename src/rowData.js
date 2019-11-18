@@ -1,5 +1,6 @@
 export default [
     {
+        id: 0,
         avatarUrl: "/assets/khabib_nurmagomedov.jpg",
         accountDetails: {
             userName: "khabib_nurmagomedov",
@@ -9,6 +10,7 @@ export default [
         }
     },
     {
+        id: 1,
         avatarUrl: "/assets/itsdougthepug.jpg",
         accountDetails: {
             userName: "itsdougthepug",
@@ -18,6 +20,7 @@ export default [
         }
     },
     {
+        id: 2,
         avatarUrl: "/assets/natgeotravel.jpg",
         accountDetails: {
             userName: "natgeotravel",
@@ -27,6 +30,7 @@ export default [
         }
     },
     {
+        id: 3,
         avatarUrl: "/assets/adele.jpg",
         accountDetails: {
             userName: "adele",
@@ -36,6 +40,7 @@ export default [
         }
     },
     {
+        id: 4,
         avatarUrl: "/assets/instagram.jpg",
         accountDetails: {
             userName: "instagram",
@@ -45,6 +50,7 @@ export default [
         }
     },
     {
+        id: 5,
         avatarUrl: "/assets/oatly.jpg",
         accountDetails: {
             userName: "oatly",
@@ -54,6 +60,7 @@ export default [
         }
     },
     {
+        id: 6,
         avatarUrl: "/assets/lucaslepri.jpg",
         accountDetails: {
             userName: "lucaslepri",
@@ -63,6 +70,7 @@ export default [
         }
     },
     {
+        id: 7,
         avatarUrl: "/assets/nike.jpg",
         accountDetails: {
             userName: "nike",
@@ -72,6 +80,7 @@ export default [
         }
     },
     {
+        id: 8,
         avatarUrl: "/assets/commondeer.jpg",
         accountDetails: {
             userName: "commondeer",
@@ -81,6 +90,7 @@ export default [
         }
     },
     {
+        id: 9,
         avatarUrl: "/assets/taylorswift.jpg",
         accountDetails: {
             userName: "taylorswift",
@@ -90,6 +100,7 @@ export default [
         }
     },
     {
+        id: 10,
         avatarUrl: "/assets/leomessi.jpg",
         accountDetails: {
             userName: "leomessi",

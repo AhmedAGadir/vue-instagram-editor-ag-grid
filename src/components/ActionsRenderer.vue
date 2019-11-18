@@ -7,7 +7,7 @@
       <span class="action">
         <i class="fas fa-pencil-alt"></i>
       </span>
-      <span class="action">
+      <span class="action" @click="deleteUser">
         <i class="far fa-trash-alt"></i>
       </span>
     </div>
@@ -26,6 +26,10 @@ export default {
       if (params.node !== this.params.node) {
         this.expanded = false;
       }
+    },
+    deleteUser() {
+      let user = this.params.data;
+      this.$store.commit("deleteUser", user);
     }
   },
   created() {

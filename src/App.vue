@@ -9,6 +9,8 @@
       suppressCellSelection
       @grid-ready="onGridReady"
       headerHeight="0"
+      deltaRowDataMode
+      :getRowNodeId="getRowNodeId"
     ></ag-grid-vue>
   </div>
 </template>
@@ -25,10 +27,19 @@ export default {
   data() {
     return {
       columnDefs: null,
-      rowData: null,
       gridApi: null,
       columnApi: null
     };
+  },
+  computed: {
+    rowData: {
+      get() {
+        return this.$store.getters.rowData;
+      },
+      set(data) {
+        this.$store.commit("setRowData", data);
+      }
+    }
   },
   components: {
     AgGridVue,
@@ -40,6 +51,9 @@ export default {
     onGridReady(params) {
       this.gridApi = params.api;
       this.columnApi = params.api;
+    },
+    getRowNodeId(data) {
+      return data.id;
     }
   },
   beforeMount() {
