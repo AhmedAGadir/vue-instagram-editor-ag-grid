@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="actions-container">
     <div class="contracted" v-if="!expanded" @click="expanded = true">
       <span class="action">⋮</span>
     </div>
@@ -44,8 +44,7 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  transition: all 0.3s ease-out;
+.actions-container {
   display: flex;
   justify-content: center;
   width: 100%;

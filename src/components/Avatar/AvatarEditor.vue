@@ -14,11 +14,11 @@ export default {
 <style scoped>
 img,
 .placeholder {
-  height: 120px;
-  width: 120px;
+  height: 125px;
+  width: 125px;
   border-radius: 50%;
-  position: relative;
   background: rgb(235, 233, 235);
+  position: relative;
   left: 20px;
 }
 </style>

@@ -11,7 +11,6 @@
       headerHeight="0"
       deltaRowDataMode
       :getRowNodeId="getRowNodeId"
-      suppressClickEdit
       editType="fullRow"
     ></ag-grid-vue>
     <button @click="addUser">
@@ -21,12 +20,15 @@
 </template>
 
 <script>
+// <!-- suppressClickEdit -->
 import { AgGridVue } from "ag-grid-vue";
 import rowData, { getBlankUser } from "./rowData.js";
-import AvatarRenderer from "./components/AvatarRenderer.vue";
-import AccountDetailsRenderer from "./components/AccountDetailsRenderer.vue";
-import AccountDetailsEditor from "./components/AccountDetailsEditor.vue";
-import ActionsRenderer from "./components/ActionsRenderer.vue";
+import AvatarRenderer from "./components/Avatar/AvatarRenderer.vue";
+import AvatarEditor from "./components/Avatar/AvatarEditor.vue";
+import AccountDetailsRenderer from "./components/AccountDetails/AccountDetailsRenderer.vue";
+import AccountDetailsEditor from "./components/AccountDetails/AccountDetailsEditor.vue";
+import ActionsRenderer from "./components/Actions/ActionsRenderer.vue";
+import ActionsEditor from "./components/Actions/ActionsEditor.vue";
 
 export default {
   name: "App",
@@ -51,9 +53,11 @@ export default {
   components: {
     AgGridVue,
     AvatarRenderer,
+    AvatarEditor,
     AccountDetailsRenderer,
     AccountDetailsEditor,
-    ActionsRenderer
+    ActionsRenderer,
+    ActionsEditor
   },
   methods: {
     onGridReady(params) {
@@ -82,6 +86,7 @@ export default {
       {
         field: "avatarUrl",
         cellRendererFramework: "AvatarRenderer",
+        cellEditorFramework: "AvatarEditor",
         width: 170,
         editable: true
       },
@@ -95,6 +100,8 @@ export default {
       {
         headerName: "Actions",
         cellRendererFramework: "ActionsRenderer",
+        cellEditorFramework: "ActionsEditor",
+        editable: true,
         width: 130
       }
     ];
@@ -137,6 +144,7 @@ $border-color: white;
 .ag-theme-balham .ag-cell.ag-cell-inline-editing {
   height: inherit;
   border: none;
+  padding: 0 11px;
 }
 
 .app {
