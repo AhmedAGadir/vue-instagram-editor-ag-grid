@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>
-      {{params.value.userName}}
+      {{params.value.username}}
       <img
         v-if="params.value.verified"
         src="/assets/badge-with-check-mark.png"

@@ -4,7 +4,7 @@
       <span class="action">⋮</span>
     </div>
     <div class="expanded" v-if="expanded">
-      <span class="action">
+      <span class="action" @click="enterEditMode">
         <i class="fas fa-pencil-alt"></i>
       </span>
       <span class="action" @click="deleteUser">
@@ -18,25 +18,27 @@
 export default {
   data: function() {
     return {
-      expanded: false
+      expanded: false,
+      editing: false
     };
   },
   methods: {
-    onMouseOver(params) {
-      if (params.node !== this.params.node) {
-        this.expanded = false;
-      }
-    },
     deleteUser() {
       let user = this.params.data;
       this.$store.commit("deleteUser", user);
+    },
+    enterEditMode() {
+      if (this.editing) {
+        this.params.api.stopEditing();
+        this.editing = false;
+      } else {
+        this.params.api.startEditingCell({
+          rowIndex: this.params.node.rowIndex,
+          colKey: "accountDetails"
+        });
+        this.editing = true;
+      }
     }
-  },
-  created() {
-    this.params.api.addEventListener("cellMouseOver", this.onMouseOver);
-  },
-  destroyed() {
-    this.params.api.removeEventListener("cellMouseOver", this.onMouseOver);
   }
 };
 </script>
@@ -72,6 +74,10 @@ export default {
 .expanded .action {
   margin: 0 5px;
   background: rgb(233, 233, 233);
+}
+
+.action:active {
+  color: #c78bd2;
 }
 
 .expanded {
