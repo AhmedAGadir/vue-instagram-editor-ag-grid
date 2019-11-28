@@ -1,9 +1,9 @@
 <template>
   <div class="actions-container">
-    <span class="action">
+    <span class="action" @click="stopEditing(false)">
       <i class="fas fa-check"></i>
     </span>
-    <span class="action">
+    <span class="action" @click="stopEditing(true)">
       <i class="fas fa-times"></i>
     </span>
   </div>
@@ -12,13 +12,23 @@
   <script>
 export default {
   data: function() {
-    return {};
+    return {
+      getValue(params) {
+        return null;
+      }
+    };
   },
-  methods: {}
+  methods: {
+    stopEditing(bool) {
+      this.params.api.stopEditing(bool);
+    }
+  }
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "../../scss/_variables.scss";
+
 .actions-container {
   display: flex;
   justify-content: center;
@@ -33,19 +43,18 @@ export default {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: darkgrey;
+  color: $dark-grey;
   margin: 0 5px;
-  background: rgb(233, 233, 233);
   font-size: 22px;
   display: flex;
 }
 
 .action:hover,
 .action:hover {
-  background: rgb(248, 248, 248);
+  background: $light-grey;
 }
 
 .action:active {
-  color: #c78bd2;
+  color: $active;
 }
 </style>

@@ -23,6 +23,11 @@ export default {
     };
   },
   methods: {
+    onMouseOver(params) {
+      if (params.node !== this.params.node) {
+        this.expanded = false;
+      }
+    },
     deleteUser() {
       let user = this.params.data;
       this.$store.commit("deleteUser", user);
@@ -39,18 +44,26 @@ export default {
         this.editing = true;
       }
     }
+  },
+  created() {
+    this.params.api.addEventListener("cellMouseOver", this.onMouseOver);
+  },
+  destroyed() {
+    this.params.api.removeEventListener("cellMouseOver", this.onMouseOver);
   }
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "../../scss/_variables.scss";
+
 .actions-container {
   display: flex;
   justify-content: center;
   width: 100%;
 }
-.contracted .action,
-.expanded .action {
+
+.action {
   width: 45px;
   height: 45px;
   border-radius: 50%;
@@ -58,12 +71,7 @@ export default {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: darkgrey;
-}
-
-.contracted .action:hover,
-.expanded .action:hover {
-  background: rgb(248, 248, 248);
+  color: $dark-grey;
 }
 
 .contracted .action {
@@ -71,16 +79,19 @@ export default {
 }
 
 .expanded .action {
+  font-size: 22px;
   margin: 0 5px;
-  background: rgb(233, 233, 233);
-}
-
-.action:active {
-  color: #c78bd2;
 }
 
 .expanded {
-  font-size: 22px;
   display: flex;
+}
+
+.action:hover {
+  background: $light-grey;
+}
+
+.action:active {
+  color: $active;
 }
 </style>

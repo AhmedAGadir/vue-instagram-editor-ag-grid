@@ -1,13 +1,10 @@
-// export const idSequence = 265 // random number
-
 export const getBlankUser = () => {
     return {
         id: Math.random() * 99999 + 100,
-        // avatarUrl: "/assets/jpg",
         avatarUrl: '',
         accountDetails: {
-            username: "add_username",
-            name: "add_name",
+            username: null,
+            name: null,
             following: false,
             verified: false
         }

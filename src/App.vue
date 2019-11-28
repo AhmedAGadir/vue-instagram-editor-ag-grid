@@ -13,14 +13,11 @@
       :getRowNodeId="getRowNodeId"
       editType="fullRow"
     ></ag-grid-vue>
-    <button @click="addUser">
-      <i class="fas fa-user-plus"></i>
-    </button>
+    <add-user-button @addUser="addUser"></add-user-button>
   </div>
 </template>
 
 <script>
-// <!-- suppressClickEdit -->
 import { AgGridVue } from "ag-grid-vue";
 import rowData, { getBlankUser } from "./rowData.js";
 import AvatarRenderer from "./components/Avatar/AvatarRenderer.vue";
@@ -29,6 +26,7 @@ import AccountDetailsRenderer from "./components/AccountDetails/AccountDetailsRe
 import AccountDetailsEditor from "./components/AccountDetails/AccountDetailsEditor.vue";
 import ActionsRenderer from "./components/Actions/ActionsRenderer.vue";
 import ActionsEditor from "./components/Actions/ActionsEditor.vue";
+import AddUserButton from "./components/AddUserButton.vue";
 
 export default {
   name: "App",
@@ -57,7 +55,8 @@ export default {
     AccountDetailsRenderer,
     AccountDetailsEditor,
     ActionsRenderer,
-    ActionsEditor
+    ActionsEditor,
+    AddUserButton
   },
   methods: {
     onGridReady(params) {
@@ -123,6 +122,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import "./scss/_variables.scss";
+
 $header-height: 0px;
 $row-border-width: 0px;
 $hover-color: rgb(240, 240, 240);
@@ -133,7 +134,7 @@ $border-color: white;
 @import "../node_modules/ag-grid-community/src/styles/ag-theme-balham/sass/ag-theme-balham.scss";
 
 .ag-theme-balham {
-  box-shadow: 0 0 15px darkgrey;
+  box-shadow: 0 0 15px $dark-grey;
 }
 
 .ag-theme-balham .ag-cell {
@@ -144,12 +145,11 @@ $border-color: white;
 .ag-theme-balham .ag-cell.ag-cell-inline-editing {
   height: inherit;
   border: none;
-  padding: 0 11px;
+  padding: 0 10px;
 }
 
 .app {
   width: 100%;
-  background: white;
   position: relative;
 }
 
@@ -157,32 +157,7 @@ button {
   position: absolute;
   top: 100%;
   left: 100%;
-  width: 80px;
-  height: 80px;
   transform: translate(-110px, -110px);
-  border-radius: 50%;
-  outline: none;
-  cursor: pointer;
-  border: none;
-  background: rgb(235, 233, 235);
-}
-
-button:hover {
-  background: rgb(248, 248, 248);
-}
-
-button:active {
-  outline: none;
-  border: none;
-  box-shadow: none;
-}
-
-button i {
-  font-size: 22px;
-  color: darkgrey;
-}
-
-button:active i {
-  color: #c78bd2;
+  z-index: 999;
 }
 </style>

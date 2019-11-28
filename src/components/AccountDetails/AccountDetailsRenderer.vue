@@ -19,17 +19,21 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "../../scss/_variables.scss";
+
 h2 {
   font-size: 24px;
   margin: 5px 0;
   font-weight: 500;
 }
+
 h2 img {
   height: 20px;
 }
+
 p {
   font-size: 17px;
-  color: darkgrey;
+  color: $dark-grey;
 }
 </style>

@@ -1,6 +1,8 @@
 <template>
-  <img v-if="params.value" :src="params.value" />
-  <div v-else class="placeholder"></div>
+  <div class="avatar-container">
+    <img v-if="params.value" :src="params.value" />
+    <div v-else class="fallback"></div>
+  </div>
 </template>
 
   <script>
@@ -11,14 +13,23 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "../../scss/_variables.scss";
+.avatar-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
 img,
-.placeholder {
+.fallback {
   height: 125px;
   width: 125px;
   border-radius: 50%;
-  background: rgb(235, 233, 235);
-  position: relative;
-  left: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) translateX(5px);
+  background: $medium-grey;
 }
 </style>
