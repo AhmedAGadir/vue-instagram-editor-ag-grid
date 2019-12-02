@@ -18,8 +18,7 @@
 export default {
   data: function() {
     return {
-      expanded: false,
-      editing: false
+      expanded: false
     };
   },
   methods: {
@@ -30,19 +29,13 @@ export default {
     },
     deleteUser() {
       let user = this.params.data;
-      this.$store.commit("deleteUser", user);
+      this.$store.commit("deleteUser", { user });
     },
     enterEditMode() {
-      if (this.editing) {
-        this.params.api.stopEditing();
-        this.editing = false;
-      } else {
-        this.params.api.startEditingCell({
-          rowIndex: this.params.node.rowIndex,
-          colKey: "accountDetails"
-        });
-        this.editing = true;
-      }
+      this.params.api.startEditingCell({
+        rowIndex: this.params.node.rowIndex,
+        colKey: "avatarUrl"
+      });
     }
   },
   created() {

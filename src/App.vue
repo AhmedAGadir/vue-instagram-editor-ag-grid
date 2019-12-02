@@ -12,14 +12,16 @@
       deltaRowDataMode
       :getRowNodeId="getRowNodeId"
       editType="fullRow"
+      @row-editing-stopped="onRowEditingStopped"
+      enableCellChangeFlash
     ></ag-grid-vue>
-    <add-user-button @addUser="addUser"></add-user-button>
+    <add-user-button @addUser="addUser" ref="addUserBtn"></add-user-button>
   </div>
 </template>
 
 <script>
 import { AgGridVue } from "ag-grid-vue";
-import rowData, { getBlankUser } from "./rowData.js";
+import rowData, { getBlankUser, isBlankUser } from "./rowData.js";
 import AvatarRenderer from "./components/Avatar/AvatarRenderer.vue";
 import AvatarEditor from "./components/Avatar/AvatarEditor.vue";
 import AccountDetailsRenderer from "./components/AccountDetails/AccountDetailsRenderer.vue";
@@ -34,8 +36,7 @@ export default {
     return {
       columnDefs: null,
       gridApi: null,
-      columnApi: null,
-      addingUser: false
+      columnApi: null
     };
   },
   computed: {
@@ -66,18 +67,33 @@ export default {
     getRowNodeId(data) {
       return data.id;
     },
+    onRowEditingStopped(params) {
+      let user = params.data;
+      if (isBlankUser(user)) {
+        this.$store.commit("deleteUser", {
+          user,
+          force: true
+        });
+      }
+    },
     addUser() {
-      this.addingUser = true;
-      let rowDataCopy = this.rowData.map(row => ({
-        ...row,
-        accountDetails: {
-          ...row.accountDetails
-        }
-      }));
-      let user = getBlankUser();
-      rowDataCopy.unshift(user);
-      this.rowData = rowDataCopy;
-      this.gridApi.setRowData(this.rowData);
+      let firstNode = this.gridApi.getDisplayedRowAtIndex(0);
+      if (this.isNodeBlank(firstNode)) {
+        this.startEditingNode(firstNode);
+      } else {
+        let user = getBlankUser();
+        this.$store.commit("addUser", user);
+      }
+    },
+    isNodeBlank(node) {
+      return isBlankUser(node.data);
+    },
+    startEditingNode(node) {
+      this.gridApi.startEditingCell({
+        rowIndex: node.rowIndex,
+        colKey: "avatarUrl"
+      });
+      this.gridApi.flashCells({ rowNodes: [node] });
     }
   },
   beforeMount() {
@@ -90,9 +106,9 @@ export default {
         editable: true
       },
       {
-        field: "accountDetails",
         cellRendererFramework: "AccountDetailsRenderer",
         cellEditorFramework: "AccountDetailsEditor",
+        valueGetter: params => params.data,
         editable: true,
         width: 300
       },
@@ -100,6 +116,7 @@ export default {
         headerName: "Actions",
         cellRendererFramework: "ActionsRenderer",
         cellEditorFramework: "ActionsEditor",
+        valueSetter: params => null,
         editable: true,
         width: 130
       }
@@ -109,12 +126,9 @@ export default {
   },
   updated() {
     this.$nextTick(function() {
-      if (this.addingUser) {
-        this.gridApi.startEditingCell({
-          rowIndex: 0,
-          colKey: "accountDetails"
-        });
-        this.addingUser = false;
+      let firstNode = this.gridApi.getDisplayedRowAtIndex(0);
+      if (this.isNodeBlank(firstNode)) {
+        this.startEditingNode(firstNode);
       }
     });
   }
@@ -146,6 +160,10 @@ $border-color: white;
   height: inherit;
   border: none;
   padding: 0 10px;
+}
+
+.ag-theme-balham .ag-cell-data-changed {
+  background-color: $medium-grey !important;
 }
 
 .app {

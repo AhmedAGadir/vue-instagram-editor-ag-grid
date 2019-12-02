@@ -6,11 +6,18 @@
         class="form-control"
         v-model="username"
         :placeholder="usernamePlaceholder"
+        required
         ref="username"
       />
     </div>
     <div class="form-group">
-      <input type="text" class="form-control" v-model="name" :placeholder="namePlaceholder" />
+      <input
+        type="text"
+        class="form-control"
+        v-model="name"
+        :placeholder="namePlaceholder"
+        required
+      />
     </div>
     <div class="form-inline">
       <label for="following">
@@ -41,6 +48,7 @@ export default {
   methods: {
     getValue() {
       return {
+        ...this.params.value,
         username: this.username,
         name: this.name,
         following: this.following

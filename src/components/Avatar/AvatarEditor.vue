@@ -57,12 +57,13 @@ img,
 }
 
 .backdrop {
-  opacity: 0.5;
+  opacity: 0.3;
   background: $medium-grey;
   cursor: pointer;
 }
 
 .backdrop:hover {
+  opacity: 0.4;
   background: $light-grey;
 }
 
