@@ -17,15 +17,12 @@ export const store = new Vuex.Store({
             state.rowData = data;
         },
         addUser(state, user) {
-            // let rowDataCopy = state.rowData.map(row => ({ ...row }));
-            // rowDataCopy.unshift(user);
-            // state.rowData = rowDataCopy;
-            state.rowData.unshift(user)
+            state.rowData.unshift(user);
         },
         deleteUser(state, { user, force = false }) {
             let confirm = true;
             if (!force) {
-                confirm = window.confirm(`Are you sure you would like to remove ${user.username}?`)
+                confirm = window.confirm(`Are you sure you would like to remove ${user.accountDetails.username}?`)
             }
             if (confirm) {
                 let updatedRowData = this.state.rowData.filter(data => data.id !== user.id);

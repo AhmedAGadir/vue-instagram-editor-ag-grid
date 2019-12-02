@@ -106,9 +106,9 @@ export default {
         editable: true
       },
       {
+        field: "accountDetails",
         cellRendererFramework: "AccountDetailsRenderer",
         cellEditorFramework: "AccountDetailsEditor",
-        valueGetter: params => params.data,
         editable: true,
         width: 300
       },
