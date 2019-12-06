@@ -72,39 +72,41 @@ export default {
       return data.id;
     },
     addUser() {
-      let ghostNodes = this.getGhostNodes();
-      if (ghostNodes.length > 0) {
-        this.startEditingNode(ghostNodes[0]);
+      console.log("add user - this.ghostuser", this.ghostUser);
+      if (this.ghostUser) {
+        console.log("add user - start editng ghost node");
+        let ghostNode = this.getGhostNode();
+        this.startEditingNode(ghostNode);
       } else {
-        this.$store.commit("addGhostUser", createGhostUser());
+        console.log("add user - create ghost user");
+        this.ghostUser = createGhostUser();
+        this.$store.commit("addGhostUser", this.ghostUser);
       }
     },
+    onRowEditingStopped(params) {
+      let user = params.data;
+      console.log("onRowEditingStopped- isGhostUser(user)", isGhostUser(user));
+      if (isBlankUser(user)) {
+        console.log("blank user - deleting - user.id", user.id);
+        this.$store.commit("deleteUser", { user, force: true });
+      } else if (isGhostUser(user)) {
+        console.log("ghost user - commiting");
+        this.$store.commit("commitGhostUser", user);
+        this.gridApi.redrawRows({ nodes: [this.getGhostNode()], force: true });
+      }
+      this.ghostUser = null;
+    },
+    getGhostNode() {
+      console.log("getGhostNode", this.gridApi.getRowNode(this.ghostUser.id));
+      return this.gridApi.getRowNode(this.ghostUser.id);
+    },
     startEditingNode(node) {
+      console.log("start editing node", node);
       this.gridApi.startEditingCell({
         rowIndex: node.rowIndex,
         colKey: "avatarUrl"
       });
       this.gridApi.flashCells({ rowNodes: [node] });
-    },
-    onRowEditingStopped(params) {
-      console.log("row editing stopped");
-      let user = params.data;
-      console.log("isBlankUser(user)", isBlankUser(user));
-      console.log("isGhostUser(user)", isGhostUser(user));
-      if (isBlankUser(user)) {
-        this.$store.commit("deleteUser", { user, force: true });
-      } else if (isGhostUser(user)) {
-        this.$store.commit("commitGhostUser", user);
-      }
-    },
-    getGhostNodes() {
-      let nodes = [];
-      this.gridApi.forEachNode(node => {
-        if (node.data.ghost) {
-          nodes.push(node);
-        }
-      });
-      return nodes;
     }
   },
   beforeMount() {
@@ -137,9 +139,11 @@ export default {
   },
   updated() {
     this.$nextTick(function() {
-      let ghostNodes = this.getGhostNodes();
-      if (ghostNodes.length > 0) {
-        this.startEditingNode(ghostNodes[0]);
+      // start
+      console.log("update - start editing ghost node");
+      if (this.ghostUser) {
+        let ghostNode = this.getGhostNode();
+        this.startEditingNode(ghostNode);
       }
     });
   }

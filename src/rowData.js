@@ -1,7 +1,9 @@
+export const GHOST_ID_ROW = 'GHOST_ID_ROW';
+export const ID_SEQUENCE = 11;
+
 export const createGhostUser = () => {
     return {
-        ghost: true,
-        id: Math.floor(Math.random() * 99999) + 100,
+        id: GHOST_ID_ROW,
         avatarUrl: '',
         accountDetails: {
             username: '',
@@ -13,7 +15,7 @@ export const createGhostUser = () => {
 }
 
 export const isGhostUser = user => {
-    return Boolean(user.ghost);
+    return user.id === GHOST_ID_ROW;
 }
 
 export const isBlankUser = user => {

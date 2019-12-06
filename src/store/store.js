@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import { GHOST_ID_ROW, ID_SEQUENCE } from '../rowData.js';
 
 Vue.use(Vuex);
 
@@ -20,8 +21,9 @@ export const store = new Vuex.Store({
             state.rowData.unshift(user);
         },
         commitGhostUser(state, user) {
-            let ind = state.rowData.findIndex(row => row.id === user.id);
-            delete state.rowData[ind].ghost;
+            let ind = state.rowData.findIndex(row => row.id === GHOST_ID_ROW);
+            state.rowData[ind].id = Math.floor(Math.random() * 99999) + 100;
+            console.log('commited id for state.rowData[ind]', state.rowData[ind].id)
         },
         deleteUser(state, { user, force = false }) {
             let confirm = true;
