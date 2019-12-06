@@ -6,22 +6,26 @@
       :columnDefs="columnDefs"
       :rowData="rowData"
       rowHeight="150"
-      suppressCellSelection
-      @grid-ready="onGridReady"
       headerHeight="0"
+      @grid-ready="onGridReady"
       deltaRowDataMode
       :getRowNodeId="getRowNodeId"
       editType="fullRow"
       @row-editing-stopped="onRowEditingStopped"
       enableCellChangeFlash
+      suppressCellSelection
     ></ag-grid-vue>
-    <add-user-button @addUser="addUser" ref="addUserBtn"></add-user-button>
+    <add-user-button @clicked="addUser"></add-user-button>
   </div>
 </template>
 
 <script>
 import { AgGridVue } from "ag-grid-vue";
-import rowData, { getBlankUser, isBlankUser } from "./rowData.js";
+import rowData, {
+  createGhostUser,
+  isGhostUser,
+  isBlankUser
+} from "./rowData.js";
 import AvatarRenderer from "./components/Avatar/AvatarRenderer.vue";
 import AvatarEditor from "./components/Avatar/AvatarEditor.vue";
 import AccountDetailsRenderer from "./components/AccountDetails/AccountDetailsRenderer.vue";
@@ -67,26 +71,13 @@ export default {
     getRowNodeId(data) {
       return data.id;
     },
-    onRowEditingStopped(params) {
-      let user = params.data;
-      if (isBlankUser(user)) {
-        this.$store.commit("deleteUser", {
-          user,
-          force: true
-        });
-      }
-    },
     addUser() {
-      let firstNode = this.gridApi.getDisplayedRowAtIndex(0);
-      if (this.isNodeBlank(firstNode)) {
-        this.startEditingNode(firstNode);
+      let ghostNodes = this.getGhostNodes();
+      if (ghostNodes.length > 0) {
+        this.startEditingNode(ghostNodes[0]);
       } else {
-        let user = getBlankUser();
-        this.$store.commit("addUser", user);
+        this.$store.commit("addGhostUser", createGhostUser());
       }
-    },
-    isNodeBlank(node) {
-      return isBlankUser(node.data);
     },
     startEditingNode(node) {
       this.gridApi.startEditingCell({
@@ -94,6 +85,26 @@ export default {
         colKey: "avatarUrl"
       });
       this.gridApi.flashCells({ rowNodes: [node] });
+    },
+    onRowEditingStopped(params) {
+      console.log("row editing stopped");
+      let user = params.data;
+      console.log("isBlankUser(user)", isBlankUser(user));
+      console.log("isGhostUser(user)", isGhostUser(user));
+      if (isBlankUser(user)) {
+        this.$store.commit("deleteUser", { user, force: true });
+      } else if (isGhostUser(user)) {
+        this.$store.commit("commitGhostUser", user);
+      }
+    },
+    getGhostNodes() {
+      let nodes = [];
+      this.gridApi.forEachNode(node => {
+        if (node.data.ghost) {
+          nodes.push(node);
+        }
+      });
+      return nodes;
     }
   },
   beforeMount() {
@@ -126,9 +137,9 @@ export default {
   },
   updated() {
     this.$nextTick(function() {
-      let firstNode = this.gridApi.getDisplayedRowAtIndex(0);
-      if (this.isNodeBlank(firstNode)) {
-        this.startEditingNode(firstNode);
+      let ghostNodes = this.getGhostNodes();
+      if (ghostNodes.length > 0) {
+        this.startEditingNode(ghostNodes[0]);
       }
     });
   }
@@ -138,11 +149,14 @@ export default {
 <style lang="scss">
 @import "./scss/_variables.scss";
 
+/* We dont want to show the column header */
 $header-height: 0px;
+/* Minimalistic approach*/
 $row-border-width: 0px;
+$border-color: white;
+/* Beautifying */
 $hover-color: rgb(240, 240, 240);
 $editor-background-color: inherit;
-$border-color: white;
 
 @import "../node_modules/ag-grid-community/src/styles/ag-grid.scss";
 @import "../node_modules/ag-grid-community/src/styles/ag-theme-balham/sass/ag-theme-balham.scss";

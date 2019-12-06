@@ -16,8 +16,12 @@ export const store = new Vuex.Store({
         setRowData(state, data) {
             state.rowData = data;
         },
-        addUser(state, user) {
+        addGhostUser(state, user) {
             state.rowData.unshift(user);
+        },
+        commitGhostUser(state, user) {
+            let ind = state.rowData.findIndex(row => row.id === user.id);
+            delete state.rowData[ind].ghost;
         },
         deleteUser(state, { user, force = false }) {
             let confirm = true;
@@ -25,7 +29,7 @@ export const store = new Vuex.Store({
                 confirm = window.confirm(`Are you sure you would like to remove ${user.accountDetails.username}?`)
             }
             if (confirm) {
-                let updatedRowData = this.state.rowData.filter(data => data.id !== user.id);
+                let updatedRowData = this.state.rowData.filter(row => row.id !== user.id);
                 state.rowData = updatedRowData;
             }
         }

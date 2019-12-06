@@ -1,5 +1,5 @@
 <template>
-  <button @click="$emit('addUser')">
+  <button @click="$emit('clicked')">
     <i class="fas fa-user-plus"></i>
   </button>
 </template>

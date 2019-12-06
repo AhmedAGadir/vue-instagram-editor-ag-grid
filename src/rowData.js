@@ -1,14 +1,19 @@
-export const getBlankUser = () => {
+export const createGhostUser = () => {
     return {
-        id: Math.random() * 99999 + 100,
+        ghost: true,
+        id: Math.floor(Math.random() * 99999) + 100,
         avatarUrl: '',
         accountDetails: {
-            username: null,
-            name: null,
+            username: '',
+            name: '',
             following: false,
             verified: false
-        }
+        },
     }
+}
+
+export const isGhostUser = user => {
+    return Boolean(user.ghost);
 }
 
 export const isBlankUser = user => {
