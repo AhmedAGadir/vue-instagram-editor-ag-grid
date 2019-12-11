@@ -1,5 +1,6 @@
 <template>
   <div class="app">
+    {{ rowData}}
     <ag-grid-vue
       style="height: 900px;"
       class="ag-theme-balham"
@@ -40,7 +41,8 @@ export default {
     return {
       columnDefs: null,
       gridApi: null,
-      columnApi: null
+      columnApi: null,
+      ghostUser: null
     };
   },
   computed: {
@@ -72,36 +74,30 @@ export default {
       return data.id;
     },
     addUser() {
-      console.log("add user - this.ghostuser", this.ghostUser);
+      // only allow one ghost node at a time
       if (this.ghostUser) {
-        console.log("add user - start editng ghost node");
         let ghostNode = this.getGhostNode();
         this.startEditingNode(ghostNode);
       } else {
-        console.log("add user - create ghost user");
         this.ghostUser = createGhostUser();
         this.$store.commit("addGhostUser", this.ghostUser);
       }
     },
     onRowEditingStopped(params) {
       let user = params.data;
-      console.log("onRowEditingStopped- isGhostUser(user)", isGhostUser(user));
       if (isBlankUser(user)) {
-        console.log("blank user - deleting - user.id", user.id);
+        // remove empty rows from our data set
         this.$store.commit("deleteUser", { user, force: true });
       } else if (isGhostUser(user)) {
-        console.log("ghost user - commiting");
+        // commit non-empty, ghost rows
         this.$store.commit("commitGhostUser", user);
-        this.gridApi.redrawRows({ nodes: [this.getGhostNode()], force: true });
       }
       this.ghostUser = null;
     },
     getGhostNode() {
-      console.log("getGhostNode", this.gridApi.getRowNode(this.ghostUser.id));
       return this.gridApi.getRowNode(this.ghostUser.id);
     },
     startEditingNode(node) {
-      console.log("start editing node", node);
       this.gridApi.startEditingCell({
         rowIndex: node.rowIndex,
         colKey: "avatarUrl"
@@ -138,9 +134,8 @@ export default {
     this.rowData = rowData;
   },
   updated() {
+    // start editing ghost nodes immediately after adding them to the store
     this.$nextTick(function() {
-      // start
-      console.log("update - start editing ghost node");
       if (this.ghostUser) {
         let ghostNode = this.getGhostNode();
         this.startEditingNode(ghostNode);

@@ -1,9 +1,9 @@
-export const GHOST_ID_ROW = 'GHOST_ID_ROW';
-export const ID_SEQUENCE = 11;
+let idSequence = 11;
 
 export const createGhostUser = () => {
     return {
-        id: GHOST_ID_ROW,
+        ghost: true,
+        id: idSequence++,
         avatarUrl: '',
         accountDetails: {
             username: '',
@@ -15,7 +15,7 @@ export const createGhostUser = () => {
 }
 
 export const isGhostUser = user => {
-    return user.id === GHOST_ID_ROW;
+    return Boolean(user.ghost);
 }
 
 export const isBlankUser = user => {
