@@ -85,13 +85,16 @@ export default {
     },
     onRowEditingStopped(params) {
       let user = params.data;
-      if (isBlankUser(user)) {
-        // remove empty rows from our data set
-        this.$store.commit("deleteUser", { user, force: true });
-      } else if (isGhostUser(user)) {
-        // commit non-empty, ghost rows
-        this.$store.commit("commitGhostUser", user);
+      if (isGhostUser(user)) {
+        if (isBlankUser(user)) {
+          // remove empty rows from our data set
+          this.$store.commit("deleteUser", { user, force: true });
+        } else {
+          // commit non-empty, ghost rows
+          this.$store.commit("commitGhostUser", user);
+        }
       }
+      // clear this.ghostUser
       this.ghostUser = null;
     },
     getGhostNode() {
