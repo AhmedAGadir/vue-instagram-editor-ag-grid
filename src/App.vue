@@ -1,6 +1,5 @@
 <template>
   <div class="app">
-    <!-- {{ rowData}} -->
     <ag-grid-vue
       style="height: 900px;"
       class="ag-theme-balham"
