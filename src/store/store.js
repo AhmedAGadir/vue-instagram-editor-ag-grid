@@ -29,7 +29,7 @@ export const store = new Vuex.Store({
         deleteUser(state, { user, force = false }) {
             let confirm = true;
             if (!force) {
-                confirm = window.confirm(`Are you sure you would like to remove ${user.accountDetails.username}?`)
+                confirm = window.confirm(`Are you sure you would like to remove ${user.username}?`)
             }
             if (confirm) {
                 let updatedRowData = this.state.rowData.filter(row => row.id !== user.id);
