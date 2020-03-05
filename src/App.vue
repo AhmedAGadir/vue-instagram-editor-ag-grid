@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    {{ rowData}}
+    <!-- {{ rowData}} -->
     <ag-grid-vue
       style="height: 900px;"
       class="ag-theme-balham"
@@ -94,7 +94,6 @@ export default {
           this.$store.commit("commitGhostUser", user);
         }
       }
-      // clear this.ghostUser
       this.ghostUser = null;
     },
     getGhostNode() {
@@ -118,9 +117,27 @@ export default {
         editable: true
       },
       {
-        field: "accountDetails",
         cellRendererFramework: "AccountDetailsRenderer",
         cellEditorFramework: "AccountDetailsEditor",
+        valueGetter: params => ({
+          username: params.data.username,
+          name: params.data.name,
+          following: params.data.following,
+          verified: params.data.verified
+        }),
+        equals: (oldValue, newValue) => {
+          let usernameEqual = oldValue.username === newValue.username;
+          let nameEqual = oldValue.name === newValue.name;
+          let followingEqual = oldValue.following === newValue.following;
+          let verifiedEqual = oldValue.verified === newValue.verified;
+          return usernameEqual && nameEqual && followingEqual && verifiedEqual;
+        },
+        valueSetter: params => {
+          params.data.username = params.newValue.username;
+          params.data.name = params.newValue.name;
+          params.data.following = params.newValue.following;
+          params.data.verified = params.newValue.verified;
+        },
         editable: true,
         width: 300
       },
